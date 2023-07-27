@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# this script outputs the content of the current directory
+
+for file in *; do
+	if [ -f "$file" ] && [[ "$file" != .* ]] && [[ "$file" =~ -(.*) ]]; then
+		echo "${BASH_REMATCH[1]}"
+	fi
+done

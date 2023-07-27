@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# this script displats the specific information /etc/passwd with the while loop
+
+while IFS=: read -r username _ userid _ _ home _; do
+	echo "Username: $username"
+	echo "User ID: $userid"
+	echo "Home Directory: $home"
+done < /etc/passwd
