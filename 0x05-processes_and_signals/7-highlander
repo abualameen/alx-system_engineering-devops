@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# this script displays "To infinity and beyond" indefinitely and sleeps for 2 sec after each ita
+# It also responds to SIGTERM signal with "I an invincible!!!"
+
+sigtern_handler() {
+	echo "I am invicible!!!"
+	exit 0
+}
+trap sigterm_handler SIGTERM
+
+while true; do
+	echo "To infinity and beyond"
+	sleep 2
+done

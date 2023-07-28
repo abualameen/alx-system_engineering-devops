@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# This script displays "To infinity and beyond" indefinitely
+# and responds to various signals with specific messages.
+
+handle_term() {
+	echo "I hate the kill command"
+	cleanup_and_exit
+}
+
+handle_int() {
+	echo "Y U no love me?!"
+}
+
+clean_and_exit() {
+	echo "Cleaning up and terminating..."
+	rm -f /var/run/myscript.pid
+	exit 0
+}
+
+trap handle_term SIGTERM SIGQUIT
+trap handle_int SIGINT
+
+echo "$$" > /var/run/myscript.pid
+
+while true; do
+	echo "To infinity and beyond"
+	sleep 2
+done
