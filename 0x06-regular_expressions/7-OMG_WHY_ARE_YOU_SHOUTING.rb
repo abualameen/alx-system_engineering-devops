@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-regex = /^[A-Z]+$/
+regex = /[A-Z]+/
 
 if ARGV.empty?
         puts "Usage: #{$PROGRAM_NAME} <string>"
