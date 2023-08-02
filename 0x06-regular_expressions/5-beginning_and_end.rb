@@ -8,7 +8,6 @@ if ARGV.empty?
 end
 
 input_string = ARGV[0]
-
-matches = input_string.scan(regex)
-
-puts matches.join
+if regex.match?(input_string)
+	puts input_string
+end
