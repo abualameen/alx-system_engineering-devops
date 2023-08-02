@@ -1,0 +1,34 @@
+#!/bin/bash
+# this script displays the listening ports
+
+echo "Proto Recv-Q Send-Q Local Address    Foreign Address    State    PID/Program name"
+
+listening_sockets=$(netstat -tuln | grep 'LISTEN')
+
+
+while IFS= read -r line; do
+	proto=$(echo "$line" | awk '{print $1}')
+	local_address=$(echo "$line" | awk '{print $4}')
+	state=$(echo "$line" | awk '{print $6}')
+	pid=$(echo "$line" | awk '{print $7}' | cut -d '/' -f 1)
+	program_name=$(ps -p "$pid" -o comm= 2>/dev/null)
+
+	echo "$proto      -      - $local_address      -      $state      $pid/$program_name"
+done <<< "$listening_sockets"
+
+echo ""
+
+echo "Proto RefCnt Flags       Type       State         I-Node   PID/Program name    Path"
+unix_sockes=$(netstat -lx | grep 'LISTEN')
+
+while IFS= read -r line; do
+	proto=$(echo "$line" | awk '{print $1}')
+	type=$(echo "$line" | awk '{print $5}')
+	state="LISTENING"
+	inode=$(echo "$line" | awk '{print $6}')
+	pid=$(echo "$line" | awk '{print $7}')
+	program_name=$(ps -p "$pid" -o comm=2>/dev/null)
+	path=$(echo "$line" | awk '{print $8}')
+
+	echo "unix  $proto   [ ACC ]     $type       $state     $inode   $pid/$program_name    $path"
+done <<< "$unix_sockets"
