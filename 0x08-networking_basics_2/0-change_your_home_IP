@@ -1,0 +1,16 @@
+#!/bin/bash
+# this script changes the ip address of localhost and facebook
+
+sudo cp /etc/hosts /etc/hosts.backup
+
+echo "127.0.0.2 localhost" | sudo tee /etc/hosts
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts
+
+sudo systemctl restart systemd-networkd
+
+echo "Configuration completed:"
+echo "localhost now resolves to 127.0.0.2"
+echo "facebook.com now resolves to 8.8.8.8"
+
+echo "Updated /etc/hosts:"
+cat /etc/hosts

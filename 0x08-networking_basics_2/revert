@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo cp /etc/hosts.backup /etc/hosts
+sudo systemctl restart systemd-networkd
