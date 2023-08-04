@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # this script changes the ip address of localhost and facebook
 
 sudo cp /etc/hosts /etc/hosts.backup
