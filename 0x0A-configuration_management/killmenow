@@ -1,5 +1,15 @@
 #!/bin/bash
-while [[ true ]]
-do
+
+# Function to handle termination signal
+terminate() {
+    echo "Received SIGTERM, terminating..."
+    exit 0
+}
+
+# Trap SIGTERM signal and call the terminate function
+trap 'terminate' SIGTERM
+
+while true; do
     sleep 2
 done
+
