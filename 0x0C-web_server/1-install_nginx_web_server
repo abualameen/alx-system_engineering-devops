@@ -1,6 +1,42 @@
 #!/usr/bin/env bash
-# script to install nginx server
+# Install Nginx
 sudo apt-get -y update
-sudo apt-get -y install nginx
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
+sudo apt-get install -y nginx
+
+# Create a simple HTML file with "Hello World!" content
+cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+</body>
+</html>
+EOF
+
+# Configure Nginx to serve the "Hello World!" content
+sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
+server {
+    listen 80 default_server;
+    root /var/www/html;
+    index index.html;
+    server_name _;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
+
+# Restart Nginx
 sudo service nginx restart
+
+# Check if Nginx is running
+if ps aux | grep -q "[n]ginx"; then
+    echo "Nginx is running."
+else
+    echo "Nginx is not running."
+fi
+
