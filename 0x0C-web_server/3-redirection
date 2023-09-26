@@ -1,0 +1,21 @@
+#!/bin/bash
+# Update Nginx configuration
+echo "server {
+    listen 8080;
+    server_name _;
+
+    location /redirect_me {
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+
+    # Add other server block configurations here if needed
+}" | sudo tee /etc/nginx/sites-available/redirect_me
+
+# Create a symbolic link to enable the site
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+# Test the Nginx configuration
+sudo nginx -t
+
+# Start Nginx
+sudo service nginx start
