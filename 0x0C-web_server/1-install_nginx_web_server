@@ -1,6 +1,6 @@
 #!/bin/bash
+# This script Update package list and install Nginx and displays the content html
 
-# Update package list and install Nginx
 sudo apt-get update
 sudo apt-get install -y nginx
 
