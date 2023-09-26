@@ -21,9 +21,3 @@ echo '<!DOCTYPE html>
 # Restart Nginx without systemctl
 sudo service nginx restart
 
-# Verify Nginx status
-if ps aux | grep -v grep | grep nginx &>/dev/null; then
-    echo "Nginx is running."
-else
-    echo "Nginx is not running. Check for errors."
-fi
