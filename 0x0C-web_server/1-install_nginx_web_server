@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
-# Install Nginx
+# script install and display content of html
+
 sudo apt-get -y update
 sudo apt-get install -y nginx
-
-# Create a simple HTML file with "Hello World!" content
-cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
-<!DOCTYPE html>
+sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
+echo '<!DOCTYPE html>
 <html>
 <head>
     <title>Hello World!</title>
@@ -13,30 +12,6 @@ cat <<EOF | sudo tee /var/www/html/index.html > /dev/null
 <body>
     <h1>Hello World!</h1>
 </body>
-</html>
-EOF
+</html>' | sudo tee /var/www/html/index.html
 
-# Configure Nginx to serve the "Hello World!" content
-sudo tee /etc/nginx/sites-available/default > /dev/null <<EOF
-server {
-    listen 80 default_server;
-    root /var/www/html;
-    index index.html;
-    server_name _;
-
-    location / {
-        try_files $uri $uri/ =404;
-    }
-}
-EOF
-
-# Restart Nginx
 sudo service nginx restart
-
-# Check if Nginx is running
-if ps aux | grep -q "[n]ginx"; then
-    echo "Nginx is running."
-else
-    echo "Nginx is not running."
-fi
-
