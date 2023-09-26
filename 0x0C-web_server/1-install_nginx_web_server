@@ -19,5 +19,5 @@ echo '<!DOCTYPE html>
 </html>' | sudo tee /var/www/html/index.html
 
 # Restart Nginx without systemctl
-sudo service nginx restart
+sudo nginx -s reload
 
