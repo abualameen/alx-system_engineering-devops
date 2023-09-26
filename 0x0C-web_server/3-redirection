@@ -1,5 +1,7 @@
-#!/bin/bash
-# Update Nginx configuration
+#!/usr/bin/env bash
+# Script to install Nginx, display content of html, and configure redirection
+
+# Create a new Nginx server block configuration for redirection
 echo "server {
     listen 8080;
     server_name _;
@@ -11,11 +13,12 @@ echo "server {
     # Add other server block configurations here if needed
 }" | sudo tee /etc/nginx/sites-available/redirect_me
 
-# Create a symbolic link to enable the site
+# Create a symbolic link to enable the redirection configuration
 sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
 # Test the Nginx configuration
 sudo nginx -t
 
-# Start Nginx
-sudo service nginx start
+# Restart Nginx to apply the changes
+sudo service nginx restart
+
