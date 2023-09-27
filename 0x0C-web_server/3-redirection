@@ -2,7 +2,7 @@
 # This script cofigures a ngnix server to serve Hello World! AND redirect to a site
 
 # Update the package repository and install Nginx
-sudo apt-get update
+sudo apt-get -y update
 sudo apt-get -y install nginx
 
 # Create a custom Nginx configuration file for both "Hello World!" and redirection
