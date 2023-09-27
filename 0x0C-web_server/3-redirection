@@ -32,5 +32,3 @@ sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 # Restart Nginx to apply the new configuration
 sudo service nginx restart
 
-echo "Nginx configured for serving 'Hello World!' and redirection."
-
