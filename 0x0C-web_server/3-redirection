@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
-# This script implements redirection to a index page
+# Script to install Nginx and display content of HTML
 
+# Update and install Nginx
+sudo apt-get -y update
+sudo apt-get install -y nginx
 
-sudo cat > /etc/nginx/sites-available/default << EOF
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+# Modify the default Nginx server block
+sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
 
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
+# Create an HTML file with a Hello World message
+echo '<!DOCTYPE html>
+<html>
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+</body>
+</html>' | sudo tee /var/www/html/index.html
 
-    server_name _;
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF
-
-# Create the redirection block
+# Create a new server block for /redirect_me
 sudo cat > /etc/nginx/sites-available/redirect_me << EOF
 server {
     listen 80;
@@ -31,35 +32,20 @@ server {
     }
 
     location /redirect_me {
-        return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
+        return 301 https://www.youtube.com/watch?v=WVDFREI8J3w;
     }
 }
 EOF
 
-# Step 3: Create document root directories
-sudo mkdir -p /var/www/html
-
-# Step 4: Create index.html for the first task output
-sudo cat > /var/www/html/index.html << EOF
-<html>
-<head>
-    <title>Hello World!</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>
-EOF
+# Create symbolic links and restart Nginx
 if [ -f /etc/nginx/sites-enabled/redirect_me ]; then
     echo "Removing existing configuration file..."
     sudo rm /etc/nginx/sites-enabled/redirect_me
 fi
 
-
-# Step 5: Create symbolic links and restart Nginx
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 sudo service nginx restart
 
-
 echo "Nginx configured for redirection."
+
