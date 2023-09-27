@@ -6,7 +6,7 @@ sudo apt-get -y update
 sudo apt-get -y install nginx
 
 # Create a custom Nginx configuration file for both "Hello World!" and redirection
-sudo cat > /etc/nginx/sites-available/default << EOF
+cat << EOF | sudo tee /etc/nginx/sites-available/redirect_me > /dev/null
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -30,7 +30,7 @@ EOF
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
 # Restart Nginx to apply the new configuration
-sudo systemctl restart nginx
+sudo service nginx restart
 
 echo "Nginx configured for serving 'Hello World!' and redirection."
 
