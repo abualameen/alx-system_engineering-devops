@@ -59,6 +59,7 @@ fi
 # Step 5: Create symbolic links and restart Nginx
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-sudo systemctl restart nginx
+sudo service nginx restart
+
 
 echo "Nginx configured for redirection."
