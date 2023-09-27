@@ -27,7 +27,7 @@ server {
 EOF
 
 # Create symbolic links to enable the new configuration
-sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
 
 # Restart Nginx to apply the new configuration
 sudo service nginx restart
