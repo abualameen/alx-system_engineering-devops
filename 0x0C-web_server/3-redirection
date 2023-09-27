@@ -1,51 +1,35 @@
 #!/usr/bin/env bash
-# Script to install Nginx and display content of HTML
 
-# Update and install Nginx
-sudo apt-get -y update
-sudo apt-get install -y nginx
+# Update the package repository and install Nginx
+sudo apt-get update
+sudo apt-get -y install nginx
 
-# Modify the default Nginx server block
-sudo sed -i 's/listen 80 default_server;/listen 80;/' /etc/nginx/sites-available/default
-
-# Create an HTML file with a Hello World message
-echo '<!DOCTYPE html>
-<html>
-<head>
-    <title>Hello World!</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>' | sudo tee /var/www/html/index.html
-
-# Create a new server block for /redirect_me
-sudo cat > /etc/nginx/sites-available/redirect_me << EOF
+# Create a custom Nginx configuration file for both "Hello World!" and redirection
+sudo cat > /etc/nginx/sites-available/default << EOF
 server {
-    listen 80;
-    listen [::]:80;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
 
     server_name _;
 
     location / {
-        return 200 "This is the output of the first task\n";
+        return 200 "Hello World!\n";
     }
 
     location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=WVDFREI8J3w;
+        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 }
 EOF
 
-# Create symbolic links and restart Nginx
-if [ -f /etc/nginx/sites-enabled/redirect_me ]; then
-    echo "Removing existing configuration file..."
-    sudo rm /etc/nginx/sites-enabled/redirect_me
-fi
-
+# Create symbolic links to enable the new configuration
 sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
-sudo service nginx restart
 
-echo "Nginx configured for redirection."
+# Restart Nginx to apply the new configuration
+sudo systemctl restart nginx
+
+echo "Nginx configured for serving 'Hello World!' and redirection."
 
