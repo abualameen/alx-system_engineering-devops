@@ -1,24 +1,67 @@
 #!/usr/bin/env bash
-# Script to install Nginx, display content of html, and configure redirection
 
-# Create a new Nginx server block configuration for redirection
-echo "server {
-    listen 8080;
+if ! [ -x "$(command -v nginx)" ]; then
+  sudo apt -y update
+  sudo apt install -y nginx
+fi
+
+sudo cat > /etc/nginx/sites-available/default << EOF
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
     server_name _;
 
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Create the redirection block
+sudo cat > /etc/nginx/sites-available/redirect_me << EOF
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name _;
+
+    location / {
+        return 200 "This is the output of the first task\n";
     }
 
-    # Add other server block configurations here if needed
-}" | sudo tee /etc/nginx/sites-available/redirect_me
+    location /redirect_me {
+        return 301 http://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+}
+EOF
 
-# Create a symbolic link to enable the redirection configuration
-sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+# Step 3: Create document root directories
+sudo mkdir -p /var/www/html
 
-# Test the Nginx configuration
-sudo nginx -t
+# Step 4: Create index.html for the first task output
+sudo cat > /var/www/html/index.html << EOF
+<html>
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+    <h1>Hello World!</h1>
+</body>
+</html>
+EOF
+if [ -f /etc/nginx/sites-enabled/redirect_me ]; then
+    echo "Removing existing configuration file..."
+    sudo rm /etc/nginx/sites-enabled/redirect_me
+fi
 
-# Restart Nginx to apply the changes
-sudo service nginx restart
 
+# Step 5: Create symbolic links and restart Nginx
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+
+echo "Nginx configured for redirection."
