@@ -24,6 +24,5 @@ server {
 EOF
 
 sudo ln -sf /etc/nginx/sites-available/custom_header /etc/nginx/sites-enabled/
-sudo nginx -t
 sudo service nginx restart
 
