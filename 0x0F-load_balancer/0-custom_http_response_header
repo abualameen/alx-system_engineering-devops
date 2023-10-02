@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# This script configure a brand new machine with a speicifc header
 
 sudo apt-get -y update
 sudo apt-get -y install nginx
