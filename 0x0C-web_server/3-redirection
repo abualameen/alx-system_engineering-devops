@@ -1,34 +1,33 @@
 #!/usr/bin/env bash
-# This script cofigures a ngnix server to serve Hello World! AND redirect to a site
+# redirection configuration
 
-# Update the package repository and install Nginx
+# Update package list and install Nginx
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-# Create a custom Nginx configuration file for both "Hello World!" and redirection
-cat << EOF | sudo tee /etc/nginx/sites-available/redirect_me > /dev/null
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# Create a custom Nginx configuration file for the 404 page and redirection
+sudo tee /etc/nginx/sites-available/mysite << EOF
 server {
     listen 80 default_server;
-    listen [::]:80 default_server;
-
     root /var/www/html;
-    index index.html;
-
+    index index.html index.html index.nginx-debian.html;
     server_name _;
-
-    location / {
-        return 200 "Hello World!\n";
-    }
 
     location /redirect_me {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 }
 EOF
+#echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 
-# Create symbolic links to enable the new configuration
-sudo ln -sf /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+# Enable the custom configuration file by creating a symbolic link
+sudo ln -sf /etc/nginx/sites-available/mysite /etc/nginx/sites-enabled/
 
-# Restart Nginx to apply the new configuration
+# Test the Nginx configuration
+sudo nginx -t
+
+# Restart Nginx to apply the changes
 sudo service nginx restart
 
