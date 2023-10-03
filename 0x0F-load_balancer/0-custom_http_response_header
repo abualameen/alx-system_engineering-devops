@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
-# This script configures a brand new machine with a specific header
+# Update and install Nginx
 
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-cat <<EOF | sudo tee /etc/nginx/sites-available/custom_header
+# Create the custom index page
+echo "Hello World from Web Server" | sudo tee /var/www/html/index.html
+
+# Create the custom 404 page
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
+
+# Create a custom Nginx configuration file
+sudo tee /etc/nginx/sites-available/custom_header <<EOL
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
@@ -18,13 +25,26 @@ server {
         return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
     }
 
+    error_page 404 /404.html;
+    location = /404.html {
+        internal;
+        root /var/www/html;
+    }
+
+    add_header X-Served-By \$hostname;
+
     location / {
-        add_header X-Served-By "\$HOSTNAME";
         return 200 "Hello World!\n";
     }
 }
-EOF
+EOL
+
+# Create a symbolic link to enable the custom configuration
 sudo ln -sf /etc/nginx/sites-available/custom_header /etc/nginx/sites-enabled/
+
+# Test the Nginx configuration
 sudo nginx -t
+
+# Restart Nginx to apply the changes
 sudo service nginx restart
 
