@@ -1,10 +1,12 @@
+#2-puppet_custom_http_response_header.pp
+# task 1 using puppet
 class custom_http_response_header {
 
   package { 'nginx':
     ensure => 'installed',
   }
 
-  file { '/etc/nginx/sites-available/custom_header':
+file { '/etc/nginx/sites-available/custom_header':
     ensure => 'present',
     content => '
       server {
@@ -37,7 +39,7 @@ class custom_http_response_header {
     ',
   }
 
-  file { '/etc/nginx/sites-enabled/custom_header':
+file { '/etc/nginx/sites-enabled/custom_header':
     ensure => 'link',
     target => '/etc/nginx/sites-available/custom_header',
   }
