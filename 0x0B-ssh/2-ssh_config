@@ -1,4 +1,0 @@
-#SSH client configuration
-Host *
-    IdentifyFile ~/.ssh/id_rsa
-PasswordAuthentication no
