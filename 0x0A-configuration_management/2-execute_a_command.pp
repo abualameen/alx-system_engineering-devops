@@ -3,4 +3,5 @@
 exec { 'killmenow':
   command     => '/usr/bin/pkill -TERM -f "killmenow"',
   refreshonly => true,
+
 }
