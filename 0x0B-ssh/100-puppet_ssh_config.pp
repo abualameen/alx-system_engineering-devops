@@ -1,2 +1,12 @@
-# Import the ssh_config module
-include ssh_config::ssh_config
+# ssh_config.pp
+
+file_line { 'Turn off passwd auth':
+  path  => '/home/abu/.ssh/config',
+  line  => 'PasswordAuthentication no',
+}
+
+file_line { 'Declare identity file':
+  path  => '/home/abu/.ssh/config',
+  line  => 'IdentityFile ~/.ssh/id_rsa',
+}
+
