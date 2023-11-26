@@ -7,6 +7,6 @@ file_line { 'Turn off passwd auth':
 
 file_line { 'Declare identity file':
   path  => '/home/abu/.ssh/config',
-  line  => 'IdentityFile ~/.ssh/id_rsa',
+  line  => 'IdentityFile ~/.ssh/school',
 }
 
