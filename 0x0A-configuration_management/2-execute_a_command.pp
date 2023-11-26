@@ -1,6 +1,5 @@
-# This Puppet manifest kills a process named "killmenow" using pkill with full path
+# Puppet manifest to send SIGTERM to a process
 
-exec { 'killmenow':
-  command     => '/usr/bin/pkill -TERM -f "killmenow"',
-  refreshonly => true,
+exec { 'send_ctrl_d':
+  command => '/usr/bin/pkill -15 killmenow',
 }
