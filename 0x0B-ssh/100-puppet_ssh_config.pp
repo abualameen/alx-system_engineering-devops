@@ -1,14 +1,12 @@
 # ssh_config.pp
 
-file { '/home/abu/.ssh/config':
-  ensure  => present,
-  content => "
-Host *
-    IdentityFile ~/.ssh/school
-    PasswordAuthentication no
-  ",
-  mode    => '0600',
-  owner   => 'abu',
-  group   => 'abu',
+file_line { 'Turn off passwd auth':
+  path  => '/etc/ssh/sshd_config',
+  line  => 'PasswordAuthentication no',
+}
+
+file_line { 'Declare identity file':
+  path  => '/etc/ssh/sshd_config',
+  line  => 'IdentityFile ~/.ssh/school',
 }
 
