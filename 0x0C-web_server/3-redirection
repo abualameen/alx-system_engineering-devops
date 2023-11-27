@@ -16,11 +16,8 @@ sudo sed -i '
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Configure Nginx for redirection
-placement="server_name localhost;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=7YqlP7HYU1g permanent;"
-sudo sed -i "s/server_name localhost;/$placement/" /etc/nginx/sites-enabled/default
-
-
-sudo nginx -t
+placement="server_name localhost;\n\trewrite ^\/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+sudo sed -i "s#server_name localhost;#$placement#" /etc/nginx/sites-enabled/default
 
 # Restart Nginx using sudo service
 sudo service nginx restart
