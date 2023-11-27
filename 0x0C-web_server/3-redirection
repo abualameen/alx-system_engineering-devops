@@ -21,4 +21,3 @@ sudo sed -i "s#server_name localhost;#$placement#" /etc/nginx/sites-enabled/defa
 
 # Restart Nginx using sudo service
 sudo service nginx restart
-
