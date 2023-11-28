@@ -2,20 +2,20 @@
 # Bash script to modify Nginx configuration and update Hello World! page
 
 # Update the package list
-sudo apt-get -y update
+apt-get -y update
 
 # Install Nginx
-sudo apt-get -y install nginx
+apt-get -y install nginx
 
 # Modify Nginx configuration using a single sed command
-sudo sed -i '
+sed -i '
   s/listen 80 default_server;/listen 80;/;
   s/server_name _;/server_name localhost;/;
 ' /etc/nginx/sites-available/default
 
 # Update Hello World! page content
-echo "Hello World!" | sudo tee /var/www/html/index.html
+echo "Hello World!" | tee /var/www/html/index.html
 
 # Restart Nginx using sudo service
-sudo service nginx restart
+service nginx restart
 
