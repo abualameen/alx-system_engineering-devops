@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
-# This script fixes the Apache configuration to serve content from the root directory
 
-if ! pgrep apache2 > /dev/null; then
-    service apache2 start
+# Assuming the container has Apache installed and running
+CONTAINER_ID="47ca3994a491"
+
+# Check if Apache is running inside the container
+if ! docker exec -i "$CONTAINER_ID" pgrep apache2 > /dev/null; then
+    docker exec -i "$CONTAINER_ID" service apache2 start
 fi
 
+# Define the path to the Apache configuration file inside the container
 apache_config="/etc/apache2/sites-available/000-default.conf"
 
-if grep -q "DocumentRoot /var/www/html" "$apache_config"; then
+# Check if DocumentRoot is set to /var/www/html inside the container
+if docker exec -i "$CONTAINER_ID" grep -q "DocumentRoot /var/www/html" "$apache_config"; then
     :
 else
-    sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html\n|' "$apache_config"
-    service apache2 restart
+    docker exec -i "$CONTAINER_ID" sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html\n|' "$apache_config"
+    docker exec -i "$CONTAINER_ID" service apache2 restart
 fi
+
+# Create or update an HTML file with "Hello Holberton" in the root directory
+docker exec -i "$CONTAINER_ID" bash -c 'echo "Hello Holberton" > /var/www/html/index.html'
