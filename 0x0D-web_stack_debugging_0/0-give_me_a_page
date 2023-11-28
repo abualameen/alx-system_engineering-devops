@@ -1,23 +1,15 @@
 #!/usr/bin/env bash
 # This script fixes the Apache configuration to serve content from the root directory
 
-# Check if Apache is running
 if ! pgrep apache2 > /dev/null; then
-    # If Apache is not running, start it
     service apache2 start
 fi
 
-# Define the path to the Apache configuration file
 apache_config="/etc/apache2/sites-available/000-default.conf"
 
-# Check if DocumentRoot is set to /var/www/html
 if grep -q "DocumentRoot /var/www/html" "$apache_config"; then
-    echo "Apache is configured correctly. No action needed."
+    :
 else
-    # If DocumentRoot is not set correctly, update the configuration
     sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html\n|' "$apache_config"
-    echo "Updated Apache configuration to serve content from the root directory."
-    # Restart Apache to apply changes
     service apache2 restart
 fi
-
