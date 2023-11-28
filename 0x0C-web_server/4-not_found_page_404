@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Bash script to modify Nginx configuration and update Hello World! page
+
+# Update the package list
+apt-get -y update
+
+# Install Nginx
+apt-get -y install nginx
+
+# Update Hello World! page content
+echo "Hello World!" | tee /var/www/html/index.html
+
+# Configure Nginx for redirection
+placement="server_name localhost;\n\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+sed -i "s|server_name _;|$placement|" /etc/nginx/sites-enabled/default
+
+# Update Nginx configuration for 404 error page
+placed_error="listen 80;\n\terror_page 404 /404.html;\n\tlocation = /404.html {\n\troot /var/www/html;\n\t\tinternal;\n\t}"
+sed -i "s|listen 80 default_server;|$placed_error|" /etc/nginx/sites-enabled/default
+
+# Create a custom 404 error page
+echo "Ceci n'est pas une page" | tee /var/www/html/404.html
+
+# Restart Nginx using service
+service nginx restart
+

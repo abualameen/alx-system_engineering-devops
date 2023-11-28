@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# Bash script to uninstall, reinstall, and restart Nginx
+
+# Stop Nginx if it's running
+sudo service nginx stop
+
+# Uninstall Nginx
+sudo apt-get remove --purge nginx nginx-common nginx-full -y
+
+# Clean up configuration files
+sudo rm -rf /etc/nginx
+
+# Install Nginx
+sudo apt-get install nginx -y
+
+# Start Nginx
+sudo service nginx start
+
+# Display Nginx version
+nginx -v
+
