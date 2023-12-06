@@ -35,3 +35,4 @@ service { 'nginx':
   enable  => true,
   require => Exec['configure_nginx_redirection'],
 }
+
