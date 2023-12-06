@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+sed -i '/listen 80 default_server;/a listen 80 default_server ipv4only=on;' /etc/nginx/sites-enabled/default
+service nginx restart
