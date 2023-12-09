@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 # this script debugs the problem in a web stack
 sed -i "/listen 80 default_server;/a listen 80 default_server ipv4only=on;" /etc/nginx/sites-enabled/default
-systemctl reload nginx
+service nginx restart
+
+if curl -I http://localhost:80 2>/dev/null | head -n 1 | grep "HTTP/1.1 200 OK"; then
+    echo "Nginx is serving a web page with HTTP 200 on port 80."
+else
+    echo "Error: Nginx is not serving a web page with HTTP 200 on port 80." >&2
+    exit 1
+fi
