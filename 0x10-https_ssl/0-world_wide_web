@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# Script: 0-world_wide_web
+cript: 0-world_wide_web
 # This script displays information about subdomains for a given domain.
 
 display_info() {
@@ -7,8 +6,13 @@ display_info() {
     local subdomain=$2
     local record_type=$3
     local destination=$4
+    local expected_ip=$5
 
-    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+    if [ "$destination" == "$expected_ip" ]; then
+        echo "The subdomain $subdomain is a $record_type record and points to $destination"
+    else
+        echo "Warning: The subdomain $subdomain is a $record_type record but points to $destination instead of the expected $expected_ip"
+    fi
 }
 
 domain=$1
@@ -22,12 +26,15 @@ else
     subdomains=("$subdomain")
 fi
 
+# Define the expected IP addresses for each subdomain
+declare -A expected_ips
+expected_ips=([www]="54.166.116.213" [lb-01]="54.166.116.213" [web-01]="35.153.33.61" [web-02]="54.165.26.200")
+
 for sub in "${subdomains[@]}"; do
     result=$(dig "$sub.$domain" +short)
     if [ -n "$result" ]; then
         record_type=$(dig "$sub.$domain" | awk '/ANSWER SECTION:/{getline; print $4}')
-        destination=$(dig "$sub.$domain" | awk '/ANSWER SECTION:/{getline; print $NF}')
-        display_info "$domain" "$sub" "$record_type" "$destination"
+        display_info "$domain" "$sub" "$record_type" "$result" "${expected_ips[$sub]}"
     fi
 done
 
