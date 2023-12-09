@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Script: 0-world_wide_web
 # This script displays information about subdomains for a given domain.
 
 display_info() {
@@ -29,3 +28,4 @@ for sub in "${subdomains[@]}"; do
         display_info "$domain" "$sub" "$record_type" "$result"
     fi
 done
+
