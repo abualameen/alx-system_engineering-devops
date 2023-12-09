@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 # this script debugs the problem in a web stack
 sed -i "/listen 80 default_server;/a listen 80 default_server ipv4only=on;" /etc/nginx/sites-enabled/default
-service nginx restart
-
+systemctl reload nginx
