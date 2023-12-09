@@ -5,9 +5,9 @@
 display_info() {
     local domain=$1
     local subdomain=$2
-    local record_type=$3
-    local destination=$4
+    local destination=$3
 
+    record_type=$(dig "$subdomain.$domain" +short | head -n1)
     echo "The subdomain $subdomain is a $record_type record and points to $destination"
 }
 
@@ -25,8 +25,6 @@ fi
 for sub in "${subdomains[@]}"; do
     result=$(dig "$sub.$domain" +short)
     if [ -n "$result" ]; then
-        record_type=$(dig "$sub.$domain" | awk '/ANSWER SECTION:/{getline; print $4}')
-        display_info "$domain" "$sub" "$record_type" "$result"
+        display_info "$domain" "$sub" "$result"
     fi
 done
-
