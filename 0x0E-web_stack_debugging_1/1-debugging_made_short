@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# this code configures ngnix
 echo "listen 80 default_server ipv4only=on" >> /etc/nginx/sites-enabled/default
 nginx -s reload
 
