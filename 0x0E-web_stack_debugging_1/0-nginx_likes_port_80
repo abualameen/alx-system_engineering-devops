@@ -9,4 +9,3 @@ echo "listen 80 ipv4only=on;" >> /etc/nginx/sites-enabled/mysite
 
 # Restart Nginx to apply changes
 service nginx restart
-

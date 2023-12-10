@@ -3,4 +3,3 @@
 service nginx start
 echo "listen 80 ipv4only=on" >> /etc/nginx/sites-enabled/default
 service nginx restart
-
