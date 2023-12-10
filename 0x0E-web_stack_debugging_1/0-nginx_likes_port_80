@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
-# Bash script to fix Nginx not listening on port 80
-
-# Start Nginx if not running
+# comments for the debuging
 service nginx start
-
-# Configure Nginx to listen on port 80 for all active IPv4 IPs
 echo "listen 80 ipv4only=on;" >> /etc/nginx/sites-enabled/mysite
-
-# Restart Nginx to apply changes
 service nginx restart
