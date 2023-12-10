@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # this code configures ngnix
-sudo service nginx start
+service nginx start
 echo "listen 80 default_server ipv4only=on" >> /etc/nginx/sites-enabled/default
-sudo service nginx restart
-
+service nginx restart
