@@ -1,30 +1,42 @@
 #!/usr/bin/env bash
+# This Bash script creates a MySQL dump of all databases and saves it as a tar-gzipped archive.
 
-# This script generates a tar-gzipped archive of the MySQL backup file.
+# Check if the password is provided as an argument
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <mysql_password>"
+    exit 1
+fi
 
-# Get the current date in the desired format: dd-mm-yyyy
+# MySQL password passed as argument
+MYSQL_PASSWORD="$1"
+
+# Get the current date in the format day-month-year
 CURRENT_DATE=$(date +"%d-%m-%Y")
 
-# Define the filename with the desired format
-FILENAME="${CURRENT_DATE}.tar.gz"
-
-# Dump all MySQL databases to backup.sql
-mysqldump -u root -p"$1" --all-databases > backup.sql
+# Create a MySQL dump of all databases and save it as backup.sql
+mysqldump -u root -p"$MYSQL_PASSWORD" --all-databases > backup.sql
 
 # Check if the mysqldump command was successful
 if [ $? -ne 0 ]; then
-    echo "Error: MySQL dump failed!"
+    echo "Error: Failed to create MySQL dump."
     exit 1
 fi
 
-# Compress the backup.sql file into a tar-gzipped archive
-tar -czvf "$FILENAME" backup.sql
+# Compress the backup.sql file into a tar.gz archive
+tar -czvf "$CURRENT_DATE.tar.gz" backup.sql
 
-# Check if the tar command was successful
+# Check if the compression was successful
 if [ $? -ne 0 ]; then
-    echo "Error: Compression failed!"
+    echo "Error: Failed to compress backup file."
     exit 1
 fi
 
-# Print success message
-echo "MySQL backup completed successfully!"
+# Check the type of the generated tar.gz file using the 'file' command
+FILE_TYPE=$(file "$CURRENT_DATE.tar.gz")
+
+# Display a success message if the file is correctly compressed
+if [[ $FILE_TYPE == *"gzip compressed data"* && $FILE_TYPE == *"from Unix"* ]]; then
+    echo "Backup completed successfully! File name: $CURRENT_DATE.tar.gz"
+else
+    echo "Error: The generated file is not a gzip compressed archive."
+fi
