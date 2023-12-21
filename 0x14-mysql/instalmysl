@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Step 1: Add the PGP key from the signature.key file
+sudo apt-key add signature.key
+
+# Step 2: Add MySQL repository to sources.list.d
+sudo sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu focal mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys B7B3B788A8D3785C
+
+# Step 3: Update apt
+sudo apt-get update
+
+# Step 4: Check available versions of mysql-server
+sudo apt-cache policy mysql-server
+
+# Step 5: Install MySQL 5.7
+sudo apt install -f mysql-client=5.7* mysql-community-server=5.7* mysql-server=5.7*
+
+echo "MySQL 5.7 installation and setup completed!"
