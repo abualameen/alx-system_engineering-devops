@@ -31,7 +31,12 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Remove the uncompressed backup.sql file after compression
-#rm backup.sql
+# Check the type of the generated tar.gz file using the 'file' command
+FILE_TYPE=$(file "$CURRENT_DATE.tar.gz")
 
-echo "Backup completed successfully! File name: $CURRENT_DATE.tar.gz"
+# Display a success message if the file is correctly compressed
+if [[ $FILE_TYPE == *"gzip compressed data"* && $FILE_TYPE == *"from Unix"* ]]; then
+    echo "Backup completed successfully! File name: $CURRENT_DATE.tar.gz"
+else
+    echo "Error: The generated file is not a gzip compressed archive."
+fi
