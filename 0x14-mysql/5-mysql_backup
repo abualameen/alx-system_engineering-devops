@@ -32,6 +32,6 @@ if [ $? -ne 0 ]; then
 fi
 
 # Remove the uncompressed backup.sql file after compression
-rm backup.sql
+#rm backup.sql
 
 echo "Backup completed successfully! File name: $CURRENT_DATE.tar.gz"
