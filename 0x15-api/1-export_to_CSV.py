@@ -33,8 +33,6 @@ if __name__ == "__main__":
 
         with open(file_name, mode='w', newline='') as file:
             csv_writer = csv.writer(file, quoting=csv.QUOTE_ALL)
-            csv_writer.writerow(
-                ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
             for todo in todos:
                 csv_writer.writerow(
                     [
