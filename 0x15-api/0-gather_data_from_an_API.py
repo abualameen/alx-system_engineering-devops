@@ -10,11 +10,9 @@ import sys
 
 
 if __name__ == "__main__":
-    # Check if the correct number of arguments is provided
     if len(sys.argv) != 2:
         print("Usage: ./0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
-
     base_url = "https://jsonplaceholder.typicode.com/users/{}/todos"
     employee_id = sys.argv[1]
 

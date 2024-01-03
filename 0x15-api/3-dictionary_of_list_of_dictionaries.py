@@ -56,7 +56,6 @@ def main():
     users = fetch_users()
     structured_data = structure_data(users)
     export_to_json(structured_data)
-    print('Data exported to todo_all_employees.json')
 
 
 if __name__ == '__main__':
