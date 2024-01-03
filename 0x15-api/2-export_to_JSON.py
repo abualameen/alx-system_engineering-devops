@@ -5,9 +5,9 @@ employee ID using a REST API and exports data in JSON format.
 
 """
 
+import json
 import requests
 import sys
-import json
 
 
 if __name__ == "__main__":
