@@ -1,6 +1,10 @@
 #!/usr/bin/python3
-import requests
+"""
+this module employs and used an API
+
+"""
 import json
+import requests
 
 
 def fetch_users():
