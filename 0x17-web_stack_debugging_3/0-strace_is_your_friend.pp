@@ -3,7 +3,7 @@
 
 # Define a Puppet exec resource to fix the issue
 exec { 'fix-apache-issue':
-  command     => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php, # Replace with the actual command to fix the issue
+  command     => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php', # Replace with the actual command to fix the issue
   path        => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
   refreshonly => true,
 }
