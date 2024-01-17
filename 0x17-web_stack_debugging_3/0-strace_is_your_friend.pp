@@ -1,3 +1,4 @@
+# Puppet Manifest for fixing Apache issue identified with strace
 # File: 0-strace_is_your_friend.pp
 
 # Define a Puppet exec resource to fix the issue
@@ -12,3 +13,4 @@ service { 'apache2':
   ensure    => 'running',
   subscribe => Exec['fix-apache-issue'],
 }
+
