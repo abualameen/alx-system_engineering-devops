@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+export DD_API_KEY=b32dbe5ad29c8d6f98a1394689b79f18
+export DD_SITE="us5.datadoghq.com"
+DD_AGENT_MAJOR_VERSION=7 DD_SYSTEM_INFO=false bash -c "$(curl -L https://s3.amazonaws.com/dd-agent/scripts/install.sh)"
+
