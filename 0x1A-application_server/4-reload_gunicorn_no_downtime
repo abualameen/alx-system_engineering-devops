@@ -2,5 +2,5 @@
 # Gracefully restarts Gunicorn
 
 # Use pkill to send SIGHUP signal to Gunicorn processes
-pkill -HUP gunicorn
+pgrep gunicorn | xargs kill -HUP
 
