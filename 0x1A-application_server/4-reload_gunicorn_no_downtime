@@ -1,4 +1,20 @@
 #!/usr/bin/env bash
-# Gracefully reloads Gunicorn
 
-pgrep gunicorn | xargs kill -HUP
+# Get the process IDs of Gunicorn master and workers
+master_pid=$(pgrep -f 'gunicorn.*web_flask.0-hello_route:app')
+worker_pids=$(pgrep -f 'gunicorn.*web_flask.0-hello_route:app' -o)
+
+# Output current Gunicorn process status
+echo "Before graceful reload:"
+ps auxf | grep 'gunicorn.*web_flask.0-hello_route:app'
+
+# Perform a graceful reload by sending a SIGHUP signal to the master process
+kill -s SIGHUP "$master_pid"
+
+# Wait for a short period to allow workers to gracefully finish processing requests
+sleep 5
+
+# Output Gunicorn process status after the reload
+echo "After graceful reload:"
+ps auxf | grep 'gunicorn.*web_flask.0-hello_route:app'
+
