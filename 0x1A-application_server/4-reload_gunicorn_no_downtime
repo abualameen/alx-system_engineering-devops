@@ -1,20 +1,6 @@
 #!/usr/bin/env bash
-# This script simulates a graceful reload of Gunicorn.
+# Gracefully restarts Gunicorn
 
-# Get the process ID of the Gunicorn master
-master_pid=$(pgrep -f 'gunicorn.*web_flask.0-hello_route:app')
-
-# Output current Gunicorn process status
-echo "Before graceful reload:"
-pgrep -af 'gunicorn.*web_flask.0-hello_route:app'
-
-# Perform a graceful reload by sending a SIGHUP signal to the master process
-kill -s SIGHUP "$master_pid"
-
-# Wait for a short period to allow workers to gracefully finish processing requests
-sleep 5
-
-# Output Gunicorn process status after the reload
-echo "After graceful reload:"
-pgrep -af 'gunicorn.*web_flask.0-hello_route:app'
+# Use pkill to send SIGHUP signal to Gunicorn processes
+pkill -HUP gunicorn
 
